@@ -4,7 +4,7 @@ import 'package:e_commerce/feature/products/models/product_model.dart';
 
 class ProductsRepo {
   final ProductsWebService productsWebService;
-  List<ProductModel> products = [];
+  late List<ProductModel> products = [];
 
   ProductsRepo({required this.productsWebService});
 
@@ -18,3 +18,4 @@ class ProductsRepo {
     return products;
   }
 }
+// try  , catch
