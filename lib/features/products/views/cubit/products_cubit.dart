@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:e_commerce/core/networking/api_error_handler.dart';
 import 'package:e_commerce/core/service_locator.dart';
-import 'package:e_commerce/feature/products/data/products_repo.dart';
-import 'package:e_commerce/feature/products/data/products_web_service.dart';
-import 'package:e_commerce/feature/products/models/product_model.dart';
+import 'package:e_commerce/features/products/data/products_repo.dart';
+import 'package:e_commerce/features/products/data/products_web_service.dart';
+import 'package:e_commerce/features/products/models/product_model.dart';
 import 'package:meta/meta.dart';
 
 part 'products_state.dart';

@@ -1,8 +1,7 @@
 import 'package:e_commerce/core/service_locator.dart';
-import 'package:e_commerce/feature/products/views/products_view.dart';
+import 'package:e_commerce/features/auth/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_it/get_it.dart';
 
 void main() {
   setupServiceLocator();
@@ -20,23 +19,23 @@ class Baqallla extends StatelessWidget {
       minTextAdapt: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: ProductsView(),
+        home: LoginView(),
       ),
     );
   }
 }
 
-class Car {
-  Engine engine;
+// class Car {
+//   Engine engine;
 
-  // set setEngine(Engine engine) {
-  //   this.engine = engine;
-  // }
+//   // set setEngine(Engine engine) {
+//   //   this.engine = engine;
+//   // }
 
-  Car({required this.engine});
-}
+//   Car({required this.engine});
+// }
 
-class Engine {}
+// class Engine {}
 
 
 // DEBENDENCY INJECTION  

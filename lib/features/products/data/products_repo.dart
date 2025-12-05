@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce/feature/products/data/products_web_service.dart';
-import 'package:e_commerce/feature/products/models/product_model.dart';
+import 'package:e_commerce/features/products/data/products_web_service.dart';
+import 'package:e_commerce/features/products/models/product_model.dart';
 
 class ProductsRepo {
   final ProductsWebService productsWebService;
