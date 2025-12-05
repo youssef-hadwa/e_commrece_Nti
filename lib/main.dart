@@ -1,9 +1,26 @@
+import 'dart:developer';
+
+import 'package:e_commerce/core/cache/cache_constants.dart';
+import 'package:e_commerce/core/cache/cache_helper.dart';
 import 'package:e_commerce/core/service_locator.dart';
+import 'package:e_commerce/features/auth/data/auth_repo.dart';
+import 'package:e_commerce/features/auth/views/cubit/login_cubit.dart';
 import 'package:e_commerce/features/auth/views/login_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
+
+  CacheHelper.setSecureData(key: CacheConstants.langaugeKey, value: 'ar');
+  String? lang =
+      await CacheHelper.getSecureData(key: CacheConstants.langaugeKey);
+  log("Current lang is $lang");
+  // await CacheHelper.set(key: CacheConstants.langaugeKey, value: 'en');
+  // log("Current lang is ${CacheHelper.getString(key: CacheConstants.langaugeKey)}");
+
   setupServiceLocator();
   runApp(Baqallla());
 } // debendency injection
@@ -14,12 +31,15 @@ class Baqallla extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(375, 812),
+      designSize: const Size(375, 812),
       splitScreenMode: true,
       minTextAdapt: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: LoginView(),
+        home: BlocProvider(
+          create: (context) => LoginCubit(authRepo: getIt<AuthRepo>()),
+          child: LoginView(),
+        ),
       ),
     );
   }

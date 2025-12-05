@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
-import 'package:e_commerce/core/service_locator.dart';
-import 'package:e_commerce/features/auth/data/auth_repo.dart';
-import 'package:e_commerce/features/auth/data/auth_web_service.dart';
 import 'package:e_commerce/features/auth/data/models/login_request_model.dart';
 import 'package:e_commerce/features/auth/views/cubit/login_cubit.dart';
+import 'package:e_commerce/features/products/views/products_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,11 +36,73 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      body: BlocProvider(
-        create: (context) => LoginCubit(authRepo: getIt<AuthRepo>()),
-        child: SafeArea(
+    return BlocListener<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is LoginSuccess) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductsView(),
+              ));
+        } else if (state is LoginFailure) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 60,
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                        state.errorMessage,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        state.errorMessage,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("OK"),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        body: SafeArea(
           child: Center(
             child: Container(
               width: double.infinity,
@@ -125,14 +184,22 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       const SizedBox(height: 10),
 
-                      CustomButton(
-                        text: "Sign In",
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<LoginCubit>().login(LoginRequestModel(
-                                email: emailController.text,
-                                password: passwordController.text));
-                          }
+                      BlocBuilder<LoginCubit, LoginState>(
+                        builder: (context, state) {
+                          return state is LoginLoading
+                              ? const Center(child: CircularProgressIndicator())
+                              : CustomButton(
+                                  text: "Sign In",
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<LoginCubit>().login(
+                                          LoginRequestModel(
+                                              email: emailController.text,
+                                              password:
+                                                  passwordController.text));
+                                    }
+                                  },
+                                );
                         },
                       ),
 

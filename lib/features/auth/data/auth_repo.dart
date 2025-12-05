@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce/features/auth/data/auth_web_service.dart';
 import 'package:e_commerce/features/auth/data/models/login_request_model.dart';
 import 'package:e_commerce/features/auth/data/models/login_response_model.dart';
@@ -9,6 +11,7 @@ class AuthRepo {
 
   Future<LoginResponseModel> login(LoginRequestModel loginRequestModel) async {
     final response = await authWebService.login(loginRequestModel);
+    log('${response.data}');
     return LoginResponseModel.fromJson(response.data);
   }
 }
