@@ -67,7 +67,7 @@ class CacheHelper {
     return await _storage.read(key: key);
   }
 
- static Future<void> deleteSecureData({required String key}) async {
+  static Future<void> deleteSecureData({required String key}) async {
     return await _storage.delete(key: key);
   }
 

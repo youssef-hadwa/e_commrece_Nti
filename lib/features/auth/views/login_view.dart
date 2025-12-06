@@ -1,3 +1,4 @@
+import 'package:e_commerce/config/router/routes.dart';
 import 'package:e_commerce/features/auth/data/models/login_request_model.dart';
 import 'package:e_commerce/features/auth/views/cubit/login_cubit.dart';
 import 'package:e_commerce/features/products/views/products_view.dart';
@@ -39,11 +40,7 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProductsView(),
-              ));
+          Navigator.pushNamed(context, Routes.products);
         } else if (state is LoginFailure) {
           showDialog(
             context: context,
